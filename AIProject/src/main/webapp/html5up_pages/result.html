@@ -27,7 +27,7 @@
             
             .example{
             	width : 250px;
-            	height : 350px;
+            	height : 200px;
             }
         
         </style>
@@ -63,109 +63,78 @@
             <div class="container">
                 <div class="text-center">
                     <h2 id = "service"class="section-heading text-uppercase">Services</h2>
-                    <h3 class="section-subheading text-muted">Upload Your Image</h3>
+                    <h3 class="section-subheading text-muted">Under Analysis</h3>
                 </div>
                 <div class="row text-center">
                     <div class="col-md-4">
-                        <h4 class="my-3">Example1</h4>
+                        <h3 class="my-3"></h3>
            					<!-- <button class="btn-upload">+</button> -->
            					<!-- class =  d-none -->
-           					<img class = "example" src = "assets/img/front1.jpg">
                     </div>
                     <div class="col-md-4">
-                        <h4 class="my-3">Example2</h4>
+                        <h3 class="my-3">Progress</h3>
+                        <br>
+                        <br>
+                        <h3 class="my-3">Please wait a moment This can take up to an hour.</h3>
            					<!-- <button class="btn-upload">+</button> -->
            					<!-- class =  d-none -->
-           					<img class = "example" src = "assets/img/front1.jpg">
                     </div>
                     <div class="col-md-4">
-                        <h4 class="my-3">Example3</h4>
-							<img class = "example" src = "assets/img/front1.jpg">
+                        <h3 class="my-3"></h3>
                     </div>
                 </div>
                 <br><br>
-                 <form action = "/AIProject/CommonController" method = "post" enctype="multipart/form-data">
                 <div class="row text-center">
-                    <div class="col-md-4">
-                        <h4 class="my-3">Left-Side</h4>
-        				<div class="upload-box">
-           					<!-- <button class="btn-upload">+</button> -->
-           					<!-- class =  d-none -->
-           					 <input class="btn-file" type="file" name = "left" multiple> <!--파일 input box 형태-->     
-       					 </div>
-                    </div>
-                    <div class="col-md-4">
-                        <h4 class="my-3">Front</h4>
-        				<div class="upload-box">
-           					<!-- <button class="btn-upload">+</button> -->
-           					<!-- class =  d-none -->
-           					 <input class="btn-file" type="file" name = "front" multiple> <!--파일 input box 형태-->     
-       					 </div>
-                    </div>
-                    <div class="col-md-4">
-                        <h4 class="my-3">Right-Side</h4>
-        				<div class="upload-box">
-           					<!-- <button class="btn-upload">+</button> -->
-           					<!-- class =  d-none -->
-           					 <input class="btn-file" type="file" name = "right" multiple> <!--파일 input box 형태-->     
-       					 </div>
-                    </div>
+					<progress id = "progressbar" value="0" max="100" style = "width: 100%;height: 50px;"></progress>                
                 </div>
-                <br><br>
-                 <div class="row text-center">
-                   <input type="submit" value = "확인하기">
-                 </div>
-                </form>
             </div>
+            <br>
+            <br>
+            <br>
+            <br>
         </section>
         <!-- Portfolio Modals-->
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
         <script src="js/scripts.js"></script>
+        <script src="js/jquery-3.6.0.js"></script>
         <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
         <script>
-        	var btnUpload = document.querySelector('.btn-upload');
-        	var inputFile = document.querySelector('input[type="file"]');
-        	var uploadBox = document.querySelector('.upload-box');
-        
-        	/* 박스 안에 Drag 들어왔을 때*/
-        	uploadBox.addEventListener('dragenter',function(e){
-        		console.log('들어옴')
-        	})
-        	
-        	/* 박스 안에 Drag 하고 있을 때*/
-        	uploadBox.addEventListener('dragover',function(e){
-        		e.preventDefault();
-        		console.log('드래그 중')
-        		this.style.backgroundColor = '#B2CCFF';
-        	})
-        	
-        	/* 박스 밖으로 나갈 때*/
-        	uploadBox.addEventListener('dragleave',function(e){
-        		console.log('나감')
-        		this.style.backgroundColor = 'white';
-        	})
-        	
-        	/*Drag and Drop*/
-        	uploadBox.addEventListener('drop',function(e){
-        		e.preventDefault();
-        		console.log('놔둠')
-        		this.style.backgroundColor = 'white';
-        		
-        		console.dir(e.dataTransfer);
-        		
-        		var data = e.dataTransfer.files[0];
-        		console.dir(data);
-        		
-        	})
-        
-        
-        
-        
-        
-        
-        
+        	let num = 0;
+        	$.ajax({
+    			//ajax는 webcontent기준으로 url을 잡는다...
+    				url : 'http://127.0.0.1:8090',
+    				//contentType : 'application/x-www-form-urlencoded; charset = euc-kr',
+    				success : function(res) {
+    					console.log(res);
+    				},
+    				error : function() {
+    					alert('요청실패');
+    				}
+    		 
+    		 })
+        	setInterval(() => {
+        		$('#progressbar').attr('value',num);
+            	num+=1;
+            	if(num > 100){
+            		num = 0;
+            		$.ajax({
+            			//ajax는 webcontent기준으로 url을 잡는다...
+            				url : 'http://127.0.0.1:8090',
+            				//contentType : 'application/x-www-form-urlencoded; charset = euc-kr',
+            				success : function(res) {
+            					console.log(res);
+            				},
+            				error : function() {
+            					alert('요청실패');
+            				}
+            		 
+            		 })
+            	}
+			}, 1000);
+        </script>
+        <script>
         
         </script>
     </body>
